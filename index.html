@@ -25,7 +25,7 @@
             line-height: 1.6;
         }
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            position: relative;
             color: white;
             padding: 20px 16px;
             text-align: center;
@@ -33,10 +33,28 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(26,35,126,0.92), rgba(21,87,176,0.92));
         }
-        .header h1 { font-size: 1.6em; margin-bottom: 4px; }
-        .header p { font-size: 0.9em; opacity: 0.9; }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" opacity="0.12"><text x="30" y="50" font-family="Arial" font-size="36" font-weight="bold" fill="white">Samsung</text><text x="250" y="90" font-family="Arial" font-size="40" font-weight="bold" fill="white">Apple</text><text x="480" y="55" font-family="Arial" font-size="34" font-weight="bold" fill="white">Xiaomi</text><text x="700" y="95" font-family="Arial" font-size="38" font-weight="bold" fill="white">Huawei</text><text x="950" y="50" font-family="Arial" font-size="36" font-weight="bold" fill="white">Motorola</text><text x="80" y="140" font-family="Arial" font-size="32" font-weight="bold" fill="white">OPPO</text><text x="280" y="155" font-family="Arial" font-size="30" font-weight="bold" fill="white">Infinix</text><text x="500" y="145" font-family="Arial" font-size="28" font-weight="bold" fill="white">Realme</text><text x="750" y="160" font-family="Arial" font-size="32" font-weight="bold" fill="white">Tecno</text><text x="980" y="140" font-family="Arial" font-size="34" font-weight="bold" fill="white">vivo</text><text x="170" y="190" font-family="Arial" font-size="26" font-weight="bold" fill="white">LG</text><text x="400" y="195" font-family="Arial" font-size="26" font-weight="bold" fill="white">NOKIA</text><text x="640" y="190" font-family="Arial" font-size="28" font-weight="bold" fill="white">Honor</text><text x="850" y="195" font-family="Arial" font-size="26" font-weight="bold" fill="white">OnePlus</text></svg>');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+        .header h1, .header p, .header a {
+            position: relative;
+            z-index: 2;
+        }
+        .header h1 { font-size: 1.6em; margin-bottom: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .header p { font-size: 0.9em; opacity: 0.95; text-shadow: 0 1px 3px rgba(0,0,0,0.3); }
         .whatsapp-header {
+            position: relative;
+            z-index: 2;
             display: inline-flex;
             align-items: center;
             gap: 8px;
