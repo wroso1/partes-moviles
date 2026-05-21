@@ -37,51 +37,35 @@
             min-height: 200px;
             background: #000000;
         }
-        .header::before {
-            content: '';
+        .header-bg {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            opacity: 0.5;
-            background: 
-                /* Triángulo grande 1 - azul medio */
-                linear-gradient(135deg, transparent 30%, #1a5276 30%, #1a5276 36%, transparent 36%),
-                /* Triángulo grande 2 - azul claro */
-                linear-gradient(225deg, transparent 32%, #2e86c1 32%, #2e86c1 38%, transparent 38%),
-                /* Triángulo grande 3 - azul oscuro */
-                linear-gradient(315deg, transparent 28%, #0e2f44 28%, #0e2f44 34%, transparent 34%),
-                /* Triángulos medianos */
-                linear-gradient(45deg, transparent 45%, #1a5f8a 45%, #1a5f8a 50%, transparent 50%),
-                linear-gradient(135deg, transparent 48%, #3498db 48%, #3498db 53%, transparent 53%),
-                linear-gradient(225deg, transparent 50%, #0b3d5e 50%, #0b3d5e 55%, transparent 55%),
-                /* Triángulos pequeños */
-                linear-gradient(315deg, transparent 62%, #5dade2 62%, #5dade2 66%, transparent 66%),
-                linear-gradient(45deg, transparent 65%, #154360 65%, #154360 69%, transparent 69%),
-                linear-gradient(135deg, transparent 68%, #85c1e9 68%, #85c1e9 72%, transparent 72%),
-                /* Triángulos muy pequeños - detalles */
-                linear-gradient(225deg, transparent 76%, #1b4f72 76%, #1b4f72 79%, transparent 79%),
-                linear-gradient(315deg, transparent 80%, #aed6f1 80%, #aed6f1 83%, transparent 83%),
-                linear-gradient(45deg, transparent 84%, #0d2432 84%, #0d2432 87%, transparent 87%),
-                linear-gradient(135deg, transparent 88%, #7fb3d8 88%, #7fb3d8 91%, transparent 91%),
-                linear-gradient(225deg, transparent 92%, #1c2833 92%, #1c2833 95%, transparent 95%);
+            background-image: url('banner.jpg');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
             pointer-events: none;
         }
-        /* Brillo suave superior */
         .header::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at 50% -30%, rgba(50,150,255,0.08) 0%, transparent 60%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
             pointer-events: none;
         }
-        .logos-row {
+        .logos-row, .header h1, .header p, .header a {
             position: relative;
             z-index: 2;
+        }
+        .logos-row {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 14px;
             margin-bottom: 12px;
             padding: 0 10px;
+            position: relative;
+            z-index: 2;
         }
         .logo-item {
             display: flex;
@@ -279,6 +263,7 @@
 <body>
 
 <div class="header">
+    <div class="header-bg"></div>
     <div class="logos-row">
         <div class="logo-item"><span class="logo-text">Samsung</span></div>
         <div class="logo-item"><span class="logo-text">Apple</span></div>
