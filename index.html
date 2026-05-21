@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partes Móviles - Repuestos de Celulares Medellín</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --accent: #ff6d00;
+            --bg: #f5f7fa;
+            --card: #ffffff;
+            --text: #1a1a2e;
+            --text-light: #666;
+            --border: #e0e0e0;
+            --whatsapp: #25D366;
+            --whatsapp-dark: #128C7E;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px 16px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .header h1 { font-size: 1.6em; margin-bottom: 4px; }
+        .header p { font-size: 0.9em; opacity: 0.9; }
+        .whatsapp-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--whatsapp);
+            color: white;
+            padding: 8px 18px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85em;
+            margin-top: 10px;
+            transition: transform 0.2s;
+        }
+        .whatsapp-header:hover { transform: scale(1.05); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 12px; }
+
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 12px 0;
+            margin-bottom: 8px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .category-tabs::-webkit-scrollbar { display: none; }
+        .cat-tab {
+            flex-shrink: 0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.82em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cat-tab.active { background: var(--primary); color: white; }
+        .cat-tab:hover { background: var(--primary); color: white; }
+
+        .marca-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.7em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .product-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 14px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: none;
+        }
+        .product-card.visible { display: block; }
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .product-type {
+            font-size: 0.7em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+        .product-name {
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 4px;
+            min-height: 2.4em;
+        }
+        .product-brand {
+            font-size: 0.8em;
+            color: var(--primary);
+            font-weight: 500;
+        }
+        .product-price {
+            font-size: 1.4em;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin: 6px 0 10px;
+        }
+        .product-price .old {
+            font-size: 0.5em;
+            color: #999;
+            text-decoration: line-through;
+            font-weight: 400;
+            margin-left: 8px;
+        }
+        .btn-whatsapp {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            background: var(--whatsapp);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85em;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-whatsapp:hover { background: var(--whatsapp-dark); }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 25px;
+            border: 2px solid var(--border);
+            font-size: 0.95em;
+            margin: 8px 0;
+            outline: none;
+            transition: border 0.2s;
+        }
+        .search-bar:focus { border-color: var(--primary); }
+
+        .footer {
+            text-align: center;
+            padding: 24px 16px;
+            color: var(--text-light);
+            font-size: 0.85em;
+            border-top: 1px solid var(--border);
+            margin-top: 24px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 10px 0;
+            font-size: 0.85em;
+            color: var(--text-light);
+        }
+
+        @media (max-width: 600px) {
+            .product-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .product-card { padding: 10px; }
+            .product-name { font-size: 0.85em; min-height: 2em; }
+            .product-price { font-size: 1.2em; }
+            .header h1 { font-size: 1.3em; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📱 Partes Móviles</h1>
+    <p>🇨🇴 Repuestos de celulares en Medellín • Envíos a toda Colombia</p>
+    <a class="whatsapp-header" href="https://wa.me/573004515809?text=Hola%21+Quiero+un+repuesto" target="_blank">
+        💬 Pedidos por WhatsApp
+    </a>
+</div>
+
+<div class="container">
+
+    <input class="search-bar" id="search" type="text" placeholder="🔍 Buscar repuesto (ej: Samsung A14, iPhone 11, batería...)">
+
+    <div class="category-tabs" id="categoryTabs">
+        <div class="cat-tab active" onclick="filterByBrand('todas')">🔥 Todas</div>
+        <div class="cat-tab" onclick="filterByBrand('samsung')">Samsung</div>
+        <div class="cat-tab" onclick="filterByBrand('apple')">Apple</div>
+        <div class="cat-tab" onclick="filterByBrand('xiaomi')">Xiaomi</div>
+        <div class="cat-tab" onclick="filterByBrand('motorola')">Motorola</div>
+        <div class="cat-tab" onclick="filterByBrand('huawei')">Huawei</div>
+    </div>
+
+    <div class="stats">
+        <span id="countDisplay">0 productos</span>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+
+    <div class="footer">
+        <p><strong>Partes Móviles</strong> — Medellín, Colombia</p>
+        <p>🛵 Envíos a toda Colombia • 💳 Efectivo, Nequi, Daviplata, Bancolombia</p>
+        <p style="margin-top:8px;font-size:0.8em">
+            📱 <a href="https://wa.me/573004515809" target="_blank" style="color:var(--whatsapp-dark);font-weight:600;">+57 300 451 5809</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    const WHATSAPP_NUMBER = '573004515809';
+
+    const productos = [
+        // === SAMSUNG LCDS ===
+        { nombre: 'Samsung A04 LCD', marca: 'samsung', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Samsung A05 LCD', marca: 'samsung', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Samsung A06 LCD', marca: 'samsung', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Samsung A10 LCD', marca: 'samsung', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Samsung A10S LCD', marca: 'samsung', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Samsung A11 LCD', marca: 'samsung', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Samsung A12 LCD', marca: 'samsung', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Samsung A13 LCD', marca: 'samsung', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Samsung A14 4G LCD', marca: 'samsung', tipo: 'LCD', precio: 87000 },
+        { nombre: 'Samsung A14 5G LCD', marca: 'samsung', tipo: 'LCD', precio: 87000 },
+        { nombre: 'Samsung A15 LCD InCell', marca: 'samsung', tipo: 'LCD', precio: 95000 },
+        { nombre: 'Samsung A20 LCD', marca: 'samsung', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Samsung A20S LCD', marca: 'samsung', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Samsung A21S LCD', marca: 'samsung', tipo: 'LCD', precio: 83000 },
+        { nombre: 'Samsung A22 4G LCD', marca: 'samsung', tipo: 'LCD', precio: 86000 },
+        { nombre: 'Samsung A22 5G LCD', marca: 'samsung', tipo: 'LCD', precio: 87000 },
+        { nombre: 'Samsung A23 LCD', marca: 'samsung', tipo: 'LCD', precio: 87000 },
+        { nombre: 'Samsung A24 LCD InCell', marca: 'samsung', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Samsung A25 LCD InCell', marca: 'samsung', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Samsung A30 LCD InCell', marca: 'samsung', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Samsung A31 LCD', marca: 'samsung', tipo: 'LCD', precio: 83000 },
+        { nombre: 'Samsung A32 LCD', marca: 'samsung', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Samsung A50 LCD InCell', marca: 'samsung', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Samsung A51 LCD InCell', marca: 'samsung', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Samsung A52 LCD', marca: 'samsung', tipo: 'LCD', precio: 89000 },
+        { nombre: 'Samsung A53 OLED', marca: 'samsung', tipo: 'LCD', precio: 100000 },
+        { nombre: 'Samsung A54 OLED', marca: 'samsung', tipo: 'LCD', precio: 105000 },
+        { nombre: 'Samsung S20 FE OLED', marca: 'samsung', tipo: 'LCD', precio: 130000 },
+        { nombre: 'Samsung S21 OLED', marca: 'samsung', tipo: 'LCD', precio: 140000 },
+        { nombre: 'Samsung S22 Ultra OLED', marca: 'samsung', tipo: 'LCD', precio: 230000 },
+        { nombre: 'Samsung S23 Ultra OLED', marca: 'samsung', tipo: 'LCD', precio: 270000 },
+        { nombre: 'Samsung S24 Ultra OLED', marca: 'samsung', tipo: 'LCD', precio: 330000 },
+        // === SAMSUNG BATERÍAS ===
+        { nombre: 'Batería Samsung A01', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A02S', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A03S', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A04', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A04S', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A10', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A12', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A20S', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A21S', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A22 4G', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A30', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A31', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A32', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A51', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A52', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung A70', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung J7 Prime', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung S8', marca: 'samsung', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Samsung S9', marca: 'samsung', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería Samsung S20 FE', marca: 'samsung', tipo: 'Batería', precio: 85000 },
+
+        // === APPLE LCDS ===
+        { nombre: 'iPhone 6G LCD', marca: 'apple', tipo: 'LCD', precio: 83000 },
+        { nombre: 'iPhone 6S LCD', marca: 'apple', tipo: 'LCD', precio: 84000 },
+        { nombre: 'iPhone 7G LCD', marca: 'apple', tipo: 'LCD', precio: 85000 },
+        { nombre: 'iPhone 7 Plus LCD', marca: 'apple', tipo: 'LCD', precio: 86000 },
+        { nombre: 'iPhone 8G LCD', marca: 'apple', tipo: 'LCD', precio: 85000 },
+        { nombre: 'iPhone 8 Plus LCD', marca: 'apple', tipo: 'LCD', precio: 86000 },
+        { nombre: 'iPhone X LCD', marca: 'apple', tipo: 'LCD', precio: 125000 },
+        { nombre: 'iPhone XR LCD', marca: 'apple', tipo: 'LCD', precio: 135000 },
+        { nombre: 'iPhone XS LCD', marca: 'apple', tipo: 'LCD', precio: 145000 },
+        { nombre: 'iPhone XS Max LCD', marca: 'apple', tipo: 'LCD', precio: 160000 },
+        { nombre: 'iPhone 11 LCD', marca: 'apple', tipo: 'LCD', precio: 145000 },
+        { nombre: 'iPhone 11 Pro LCD', marca: 'apple', tipo: 'LCD', precio: 160000 },
+        { nombre: 'iPhone 11 Pro Max LCD', marca: 'apple', tipo: 'LCD', precio: 170000 },
+        { nombre: 'iPhone 12 LCD', marca: 'apple', tipo: 'LCD', precio: 180000 },
+        { nombre: 'iPhone 12 Pro LCD', marca: 'apple', tipo: 'LCD', precio: 200000 },
+        { nombre: 'iPhone 12 Pro Max LCD', marca: 'apple', tipo: 'LCD', precio: 220000 },
+        { nombre: 'iPhone 13 LCD', marca: 'apple', tipo: 'LCD', precio: 190000 },
+        { nombre: 'iPhone 13 Pro LCD', marca: 'apple', tipo: 'LCD', precio: 220000 },
+        { nombre: 'iPhone 13 Pro Max LCD', marca: 'apple', tipo: 'LCD', precio: 250000 },
+        { nombre: 'iPhone 14 LCD', marca: 'apple', tipo: 'LCD', precio: 230000 },
+        { nombre: 'iPhone 14 Pro LCD', marca: 'apple', tipo: 'LCD', precio: 270000 },
+        { nombre: 'iPhone 14 Pro Max LCD', marca: 'apple', tipo: 'LCD', precio: 300000 },
+        { nombre: 'iPhone 15 LCD', marca: 'apple', tipo: 'LCD', precio: 270000 },
+        { nombre: 'iPhone 15 Pro LCD', marca: 'apple', tipo: 'LCD', precio: 330000 },
+        { nombre: 'iPhone 15 Pro Max LCD', marca: 'apple', tipo: 'LCD', precio: 370000 },
+        // === APPLE BATERÍAS ===
+        { nombre: 'Batería iPhone 7G', marca: 'apple', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería iPhone 7 Plus', marca: 'apple', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería iPhone 8G', marca: 'apple', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería iPhone 8 Plus', marca: 'apple', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería iPhone SE 2020', marca: 'apple', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería iPhone X', marca: 'apple', tipo: 'Batería', precio: 95000 },
+        { nombre: 'Batería iPhone XR', marca: 'apple', tipo: 'Batería', precio: 95000 },
+        { nombre: 'Batería iPhone XS', marca: 'apple', tipo: 'Batería', precio: 95000 },
+        { nombre: 'Batería iPhone XS Max', marca: 'apple', tipo: 'Batería', precio: 95000 },
+        { nombre: 'Batería iPhone 11', marca: 'apple', tipo: 'Batería', precio: 95000 },
+        { nombre: 'Batería iPhone 11 Pro', marca: 'apple', tipo: 'Batería', precio: 100000 },
+        { nombre: 'Batería iPhone 11 Pro Max', marca: 'apple', tipo: 'Batería', precio: 100000 },
+        { nombre: 'Batería iPhone 12', marca: 'apple', tipo: 'Batería', precio: 100000 },
+        { nombre: 'Batería iPhone 12 Pro', marca: 'apple', tipo: 'Batería', precio: 100000 },
+        { nombre: 'Batería iPhone 12 Pro Max', marca: 'apple', tipo: 'Batería', precio: 100000 },
+        { nombre: 'Batería iPhone 13', marca: 'apple', tipo: 'Batería', precio: 110000 },
+        { nombre: 'Batería iPhone 13 Pro', marca: 'apple', tipo: 'Batería', precio: 115000 },
+        { nombre: 'Batería iPhone 13 Pro Max', marca: 'apple', tipo: 'Batería', precio: 115000 },
+        { nombre: 'Batería iPhone 14 Pro', marca: 'apple', tipo: 'Batería', precio: 120000 },
+        { nombre: 'Batería iPhone 14 Pro Max', marca: 'apple', tipo: 'Batería', precio: 120000 },
+        { nombre: 'Batería iPhone 15 Pro', marca: 'apple', tipo: 'Batería', precio: 115000 },
+        { nombre: 'Batería iPhone 15 Pro Max', marca: 'apple', tipo: 'Batería', precio: 125000 },
+
+        // === XIAOMI LCDS ===
+        { nombre: 'Xiaomi Redmi 9A LCD', marca: 'xiaomi', tipo: 'LCD', precio: 83000 },
+        { nombre: 'Xiaomi Redmi 9C LCD', marca: 'xiaomi', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Xiaomi Redmi 10 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 86000 },
+        { nombre: 'Xiaomi Redmi 10C LCD', marca: 'xiaomi', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Xiaomi Redmi 12 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 90000 },
+        { nombre: 'Xiaomi Redmi 12C LCD', marca: 'xiaomi', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Xiaomi Redmi 13C LCD', marca: 'xiaomi', tipo: 'LCD', precio: 92000 },
+        { nombre: 'Xiaomi Redmi 14C LCD', marca: 'xiaomi', tipo: 'LCD', precio: 95000 },
+        { nombre: 'Xiaomi Redmi Note 8 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Xiaomi Redmi Note 9 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 86000 },
+        { nombre: 'Xiaomi Redmi Note 10 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 89000 },
+        { nombre: 'Xiaomi Redmi Note 11 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 92000 },
+        { nombre: 'Xiaomi Redmi Note 12 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 95000 },
+        { nombre: 'Xiaomi Redmi Note 13 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 100000 },
+        { nombre: 'Xiaomi POCO M3 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Xiaomi POCO X3 LCD', marca: 'xiaomi', tipo: 'LCD', precio: 95000 },
+        // === XIAOMI BATERÍAS ===
+        { nombre: 'Batería Xiaomi Redmi 9A', marca: 'xiaomi', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Xiaomi Redmi 8', marca: 'xiaomi', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Xiaomi Redmi 10', marca: 'xiaomi', tipo: 'Batería', precio: 78000 },
+        { nombre: 'Batería Xiaomi Redmi 12C', marca: 'xiaomi', tipo: 'Batería', precio: 80000 },
+        { nombre: 'Batería Xiaomi Redmi Note 8', marca: 'xiaomi', tipo: 'Batería', precio: 80000 },
+        { nombre: 'Batería Xiaomi Redmi Note 9', marca: 'xiaomi', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Xiaomi POCO M3', marca: 'xiaomi', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Xiaomi POCO X3', marca: 'xiaomi', tipo: 'Batería', precio: 85000 },
+        { nombre: 'Batería Xiaomi Note 11', marca: 'xiaomi', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Xiaomi Note 12', marca: 'xiaomi', tipo: 'Batería', precio: 80000 },
+
+        // === MOTOROLA LCDS ===
+        { nombre: 'Moto G7 Power LCD', marca: 'motorola', tipo: 'LCD', precio: 84000 },
+        { nombre: 'Moto G8 Power LCD', marca: 'motorola', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Moto G9 Power LCD', marca: 'motorola', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Moto G20 LCD', marca: 'motorola', tipo: 'LCD', precio: 87000 },
+        { nombre: 'Moto G22 LCD', marca: 'motorola', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Moto G30 LCD', marca: 'motorola', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Moto G42 LCD', marca: 'motorola', tipo: 'LCD', precio: 90000 },
+        { nombre: 'Moto G52 LCD', marca: 'motorola', tipo: 'LCD', precio: 95000 },
+        { nombre: 'Moto G71 LCD', marca: 'motorola', tipo: 'LCD', precio: 100000 },
+        { nombre: 'Moto E6 Plus LCD', marca: 'motorola', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Moto E13 LCD', marca: 'motorola', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Moto E20 LCD', marca: 'motorola', tipo: 'LCD', precio: 86000 },
+        { nombre: 'Moto G24 LCD', marca: 'motorola', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Moto G54 LCD', marca: 'motorola', tipo: 'LCD', precio: 95000 },
+        // === MOTOROLA BATERÍAS ===
+        { nombre: 'Batería Moto G7', marca: 'motorola', tipo: 'Batería', precio: 73000 },
+        { nombre: 'Batería Moto G8 Power', marca: 'motorola', tipo: 'Batería', precio: 73000 },
+        { nombre: 'Batería Moto G9 Power', marca: 'motorola', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Moto G20', marca: 'motorola', tipo: 'Batería', precio: 73000 },
+        { nombre: 'Batería Moto G22', marca: 'motorola', tipo: 'Batería', precio: 75000 },
+        { nombre: 'Batería Moto G30', marca: 'motorola', tipo: 'Batería', precio: 73000 },
+        { nombre: 'Batería Moto G52', marca: 'motorola', tipo: 'Batería', precio: 75000 },
+
+        // === HUAWEI LCDS ===
+        { nombre: 'Huawei Y5 2018 LCD', marca: 'huawei', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Huawei Y6 2018 LCD', marca: 'huawei', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Huawei Y7 2018 LCD', marca: 'huawei', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Huawei Y7 2019 LCD', marca: 'huawei', tipo: 'LCD', precio: 83000 },
+        { nombre: 'Huawei Y9 2019 LCD', marca: 'huawei', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Huawei Y9 Prime LCD', marca: 'huawei', tipo: 'LCD', precio: 90000 },
+        { nombre: 'Huawei P30 Lite LCD', marca: 'huawei', tipo: 'LCD', precio: 88000 },
+        { nombre: 'Huawei P40 Lite LCD', marca: 'huawei', tipo: 'LCD', precio: 95000 },
+        { nombre: 'Huawei P Smart LCD', marca: 'huawei', tipo: 'LCD', precio: 82000 },
+        { nombre: 'Huawei Honor 10 Lite LCD', marca: 'huawei', tipo: 'LCD', precio: 85000 },
+        { nombre: 'Huawei Honor X8 LCD', marca: 'huawei', tipo: 'LCD', precio: 105000 },
+    ];
+
+    function formatPrice(n) {
+        return '$' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    function renderProducts(filter = 'todas', search = '') {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = '';
+        let count = 0;
+
+        const filtered = productos.filter(p => {
+            const matchBrand = filter === 'todas' || p.marca === filter;
+            const matchSearch = !search || p.nombre.toLowerCase().includes(search.toLowerCase());
+            return matchBrand && matchSearch;
+        });
+
+        filtered.forEach(p => {
+            count++;
+            const card = document.createElement('div');
+            card.className = 'product-card visible';
+            card.innerHTML = `
+                <div class="product-type">${p.tipo}</div>
+                <div class="product-name">${p.nombre}</div>
+                <div class="product-price">${formatPrice(p.precio)}</div>
+                <a class="btn-whatsapp" href="https://wa.me/${WHATSAPP_NUMBER}?text=Hola%2C+quiero+el+siguiente+repuesto%3A%0A${encodeURIComponent(p.nombre)}%0APrecio%3A+${formatPrice(p.precio)}" target="_blank">
+                    💬 Pedir por WhatsApp
+                </a>
+            `;
+            grid.appendChild(card);
+        });
+
+        document.getElementById('countDisplay').textContent = count + ' productos';
+    }
+
+    function filterByBrand(brand) {
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        event.target.classList.add('active');
+        const search = document.getElementById('search').value;
+        renderProducts(brand, search);
+        window._currentBrand = brand;
+    }
+
+    document.getElementById('search').addEventListener('input', function() {
+        const brand = window._currentBrand || 'todas';
+        renderProducts(brand, this.value);
+    });
+
+    renderProducts();
+</script>
+</body>
+</html>
