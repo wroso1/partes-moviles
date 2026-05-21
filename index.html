@@ -127,16 +127,27 @@
         .product-card {
             background: var(--card);
             border-radius: 12px;
-            padding: 14px;
+            padding: 0;
             box-shadow: 0 1px 4px rgba(0,0,0,0.08);
             border: 1px solid var(--border);
             transition: transform 0.2s, box-shadow 0.2s;
             display: none;
+            overflow: hidden;
         }
         .product-card.visible { display: block; }
         .product-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+            background: #f0f0f0;
+        }
+        .product-info {
+            padding: 10px 12px 12px;
         }
         .product-type {
             font-size: 0.7em;
@@ -728,16 +739,21 @@
             count++;
             const card = document.createElement('div');
             card.className = 'product-card visible';
+            const imgName = p.nombre.toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '') + '.jpg';
             card.innerHTML = `
+                <img class="product-img" src="img/${imgName}" alt="${p.nombre}" onerror="this.style.display='none'" loading="lazy">
+                <div class="product-info">
                 <div class="product-type">${p.tipo}</div>
                 <div class="product-name">${p.nombre}</div>
                 <div class="product-price">${formatPrice(p.precio)}</div>
                 <a class="btn-whatsapp" href="https://wa.me/${WHATSAPP_NUMBER}?text=Hola%2C+quiero+el+siguiente+repuesto%3A%0A${encodeURIComponent(p.nombre)}%0APrecio%3A+${formatPrice(p.precio)}" target="_blank">
                     💬 Pedir por WhatsApp
                 </a>
+                </div>
             `;
             grid.appendChild(card);
-        });
 
         document.getElementById('countDisplay').textContent = count + ' productos';
     }
