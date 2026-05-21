@@ -27,24 +27,60 @@
         .header {
             position: relative;
             color: white;
-            padding: 20px 16px;
+            padding: 40px 16px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
             overflow: hidden;
-            background: linear-gradient(135deg, rgba(26,35,126,0.92), rgba(21,87,176,0.92));
+            min-height: 180px;
+            background: linear-gradient(135deg, #0d47a1, #1565c0);
         }
         .header::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" opacity="0.12"><text x="30" y="50" font-family="Arial" font-size="36" font-weight="bold" fill="white">Samsung</text><text x="250" y="90" font-family="Arial" font-size="40" font-weight="bold" fill="white">Apple</text><text x="480" y="55" font-family="Arial" font-size="34" font-weight="bold" fill="white">Xiaomi</text><text x="700" y="95" font-family="Arial" font-size="38" font-weight="bold" fill="white">Huawei</text><text x="950" y="50" font-family="Arial" font-size="36" font-weight="bold" fill="white">Motorola</text><text x="80" y="140" font-family="Arial" font-size="32" font-weight="bold" fill="white">OPPO</text><text x="280" y="155" font-family="Arial" font-size="30" font-weight="bold" fill="white">Infinix</text><text x="500" y="145" font-family="Arial" font-size="28" font-weight="bold" fill="white">Realme</text><text x="750" y="160" font-family="Arial" font-size="32" font-weight="bold" fill="white">Tecno</text><text x="980" y="140" font-family="Arial" font-size="34" font-weight="bold" fill="white">vivo</text><text x="170" y="190" font-family="Arial" font-size="26" font-weight="bold" fill="white">LG</text><text x="400" y="195" font-family="Arial" font-size="26" font-weight="bold" fill="white">NOKIA</text><text x="640" y="190" font-family="Arial" font-size="28" font-weight="bold" fill="white">Honor</text><text x="850" y="195" font-family="Arial" font-size="26" font-weight="bold" fill="white">OnePlus</text></svg>');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 10% 30%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 30% 70%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255,255,255,0.06) 0%, transparent 50%),
+                radial-gradient(circle at 90% 40%, rgba(255,255,255,0.08) 0%, transparent 50%);
             pointer-events: none;
+        }
+        .logos-row {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 12px;
+            padding: 0 10px;
+        }
+        .logo-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 6px 14px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .logo-item svg {
+            height: 28px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.85;
+        }
+        .logo-text {
+            font-family: Arial, sans-serif;
+            font-size: 0.75em;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: white;
         }
         .header h1, .header p, .header a {
             position: relative;
@@ -219,6 +255,20 @@
 <body>
 
 <div class="header">
+    <div class="logos-row">
+        <div class="logo-item"><span class="logo-text">Samsung</span></div>
+        <div class="logo-item"><span class="logo-text">Apple</span></div>
+        <div class="logo-item"><span class="logo-text">Xiaomi</span></div>
+        <div class="logo-item"><span class="logo-text">Huawei</span></div>
+        <div class="logo-item"><span class="logo-text">Motorola</span></div>
+        <div class="logo-item"><span class="logo-text">OPPO</span></div>
+        <div class="logo-item"><span class="logo-text">Infinix</span></div>
+        <div class="logo-item"><span class="logo-text">Tecno</span></div>
+        <div class="logo-item"><span class="logo-text">vivo</span></div>
+        <div class="logo-item"><span class="logo-text">NOKIA</span></div>
+        <div class="logo-item"><span class="logo-text">LG</span></div>
+        <div class="logo-item"><span class="logo-text">Honor</span></div>
+    </div>
     <h1>📱 Partes Móviles</h1>
     <p>🇨🇴 Repuestos de celulares en Medellín • Envíos a toda Colombia</p>
     <a class="whatsapp-header" href="https://wa.me/573004515809?text=Hola%21+Quiero+un+repuesto" target="_blank">
