@@ -794,7 +794,7 @@
             const imgSrc = p.img ? 'img/' + p.img + '.jpg' : '';
             const img = new Image();
             img.className = 'product-img';
-            if (imgSrc) img.src = imgSrc;
+            img.src = imgSrc || 'img/placeholder-lcd.png';
             img.alt = p.nombre;
             img.loading = 'lazy';
             img.onerror = function() { img.remove(); };
