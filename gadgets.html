@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SmartGadget | Tienda Tech</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>⚡</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+        }
+        .header {
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            padding: 20px 16px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #1f1f2e;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+        }
+        .header .wa-header-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #25D366;
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .categories {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            background: #0a0a0f;
+            position: sticky;
+            top: 92px;
+            z-index: 99;
+            border-bottom: 1px solid #1a1a2e;
+        }
+        .categories::-webkit-scrollbar { display: none; }
+        .cat-btn {
+            flex-shrink: 0;
+            padding: 8px 18px;
+            border-radius: 20px;
+            border: 1px solid #2a2a3e;
+            background: #12121a;
+            color: #aaa;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .cat-btn.active {
+            background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+            color: #fff;
+            border-color: transparent;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding: 16px;
+            padding-bottom: 100px;
+        }
+        .product-card {
+            background: #12121a;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #1f1f2e;
+            transition: transform 0.2s;
+        }
+        .product-card:active {
+            transform: scale(0.97);
+        }
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            position: relative;
+        }
+        .product-img .emoji-bg {
+            font-size: 56px;
+            filter: grayscale(0.3);
+        }
+        .product-img .badge {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: #ff4757;
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 8px;
+        }
+        .product-img .badge-hot {
+            background: linear-gradient(135deg, #ff6b35, #ff4757);
+        }
+        .product-info {
+            padding: 12px;
+        }
+        .product-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 1.3;
+            margin-bottom: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .product-info .price {
+            font-size: 18px;
+            font-weight: 800;
+            color: #00d4ff;
+            margin: 4px 0;
+        }
+        .product-info .price span {
+            font-size: 12px;
+            color: #666;
+            font-weight: 400;
+            text-decoration: line-through;
+            margin-left: 6px;
+        }
+        .product-info .desc {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .product-info .wa-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #25D366;
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .product-info .wa-btn:active {
+            background: #1da851;
+        }
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10,10,15,0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 16px;
+            border-top: 1px solid #1f1f2e;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .bottom-bar .whatsapp-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px;
+            background: #25D366;
+            color: #000;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .bottom-bar .whatsapp-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+        .empty-state .emoji {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        @media (min-width: 600px) {
+            .products { grid-template-columns: repeat(3, 1fr); max-width: 900px; margin: 0 auto; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .product-card { animation: fadeIn 0.3s ease-out; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>⚡ SmartGadget</h1>
+    <p>Tecnología que te mueve</p>
+    <a class="wa-header-btn" href="https://wa.me/573004515809?text=Hola%20quiero%20info%20sobre%20los%20gadgets" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir por WhatsApp
+    </a>
+</div>
+
+<div class="categories" id="categories">
+    <button class="cat-btn active" onclick="filterProducts('all')">🔥 Todos</button>
+    <button class="cat-btn" onclick="filterProducts('audifonos')">🎧 Audífonos</button>
+    <button class="cat-btn" onclick="filterProducts('reloj')">⌚ Smartwatches</button>
+    <button class="cat-btn" onclick="filterProducts('cables')">🔌 Cables</button>
+    <button class="cat-btn" onclick="filterProducts('hogar')">💡 Hogar</button>
+    <button class="cat-btn" onclick="filterProducts('accesorios')">📱 Accesorios</button>
+    <button class="cat-btn" onclick="filterProducts('cargadores')">🔋 Cargadores</button>
+</div>
+
+<div class="products" id="products"></div>
+
+<div class="bottom-bar">
+    <a class="whatsapp-btn" href="https://wa.me/573004515809?text=Hola%20quiero%20info%20sobre%20los%20gadgets" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir por WhatsApp
+    </a>
+</div>
+
+<script>
+const products = [
+    {
+        id: 1,
+        name: 'Baseus Bowie WM01',
+        desc: 'Audífonos inalámbricos Bluetooth 5.0, 5h batería, estuche de carga',
+        price: 65000,
+        oldPrice: 85000,
+        emoji: '🎧',
+        category: 'audifonos',
+        badge: '🔥 Más vendido'
+    },
+    {
+        id: 2,
+        name: 'Mini TWS i12 - AirPods Clone',
+        desc: 'Audífonos Bluetooth 5.3, diseño Apple, pantalla LED batería',
+        price: 45000,
+        oldPrice: 60000,
+        emoji: '🎧',
+        category: 'audifonos',
+        badge: '💥 Oferta'
+    },
+    {
+        id: 3,
+        name: 'Smart Watch D20 Pro',
+        desc: 'Reloj inteligente, monitor cardíaco, pasos, sueño, IP68',
+        price: 70000,
+        oldPrice: 95000,
+        emoji: '⌚',
+        category: 'reloj',
+        badge: null
+    },
+    {
+        id: 4,
+        name: 'Cable Magnético 3 en 1',
+        desc: 'USB-C + Micro + Lightning, carga rápida, trenzado',
+        price: 45000,
+        oldPrice: 55000,
+        emoji: '🔌',
+        category: 'cables',
+        badge: null
+    },
+    {
+        id: 5,
+        name: 'Tira LED RGB 5m',
+        desc: 'App control, música sincronizada, 16 colores, smart vida',
+        price: 50000,
+        oldPrice: 70000,
+        emoji: '💡',
+        category: 'hogar',
+        badge: '🔥 Más vendido'
+    },
+    {
+        id: 6,
+        name: 'Cargador Inalámbrico 15W',
+        desc: 'Stand dual coil, carga rápida, compatible iPhone/Android',
+        price: 55000,
+        oldPrice: 70000,
+        emoji: '🔋',
+        category: 'cargadores',
+        badge: null
+    },
+    {
+        id: 7,
+        name: 'Parlante Bluetooth RGB',
+        desc: 'Mini speaker portátil, luces LED, sonido envolvente',
+        price: 55000,
+        oldPrice: 75000,
+        emoji: '🔊',
+        category: 'hogar',
+        badge: null
+    },
+    {
+        id: 8,
+        name: 'Soporte Magnético Carro',
+        desc: 'Base imantada para celular, ajuste 360°, ultra firme',
+        price: 40000,
+        oldPrice: 50000,
+        emoji: '🚗',
+        category: 'accesorios',
+        badge: null
+    },
+    {
+        id: 9,
+        name: 'Adaptador USB-C a Jack',
+        desc: 'DAC chip, audio HD, compatible con iPhone 15 y Android',
+        price: 35000,
+        oldPrice: 45000,
+        emoji: '🎵',
+        category: 'cables',
+        badge: '💥 Oferta'
+    },
+    {
+        id: 10,
+        name: 'Bombillo LED WiFi RGB',
+        desc: 'Smart life, compatible Alexa/Google, 16M colores',
+        price: 55000,
+        oldPrice: 70000,
+        emoji: '💡',
+        category: 'hogar',
+        badge: null
+    },
+    {
+        id: 11,
+        name: 'Power Bank 10,000mAh',
+        desc: 'Slim, pantalla digital, carga rápida PD 20W',
+        price: 70000,
+        oldPrice: 90000,
+        emoji: '🔋',
+        category: 'cargadores',
+        badge: null
+    },
+    {
+        id: 12,
+        name: 'Transmisor FM Bluetooth',
+        desc: 'Para carro, manos libres, USB doble, Bluetooth 5.3',
+        price: 60000,
+        oldPrice: 80000,
+        emoji: '📻',
+        category: 'accesorios',
+        badge: null
+    },
+    {
+        id: 13,
+        name: 'Soporte Plegable Silicona',
+        desc: 'Universal, compacto, ideal para escritorio/mesa',
+        price: 25000,
+        oldPrice: 35000,
+        emoji: '📱',
+        category: 'accesorios',
+        badge: '💥 Oferta'
+    },
+    {
+        id: 14,
+        name: 'Webcam 4K con Micrófono',
+        desc: ' Plug and play, autoenfoque, ideal para trabajo remoto',
+        price: 75000,
+        oldPrice: 100000,
+        emoji: '📷',
+        category: 'accesorios',
+        badge: null
+    },
+    {
+        id: 15,
+        name: 'Ventilador USB Mini',
+        desc: 'Silencioso, portátil, USB alimentación, 3 velocidades',
+        price: 48000,
+        oldPrice: 60000,
+        emoji: '🌀',
+        category: 'hogar',
+        badge: null
+    }
+];
+
+const WA_NUMBER = '573004515809';
+
+function renderProducts(filter = 'all') {
+    const container = document.getElementById('products');
+    const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+    
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="emoji">🔍</div><p>No hay productos en esta categoría</p></div>';
+        return;
+    }
+    
+    container.innerHTML = filtered.map(p => {
+        const msg = encodeURIComponent(`Hola, quiero comprar: ${p.name} - $${p.price.toLocaleString('es-CO')}`);
+        const waLink = `https://wa.me/${WA_NUMBER}?text=${msg}`;
+        return `
+            <div class="product-card">
+                <div class="product-img">
+                    <span class="emoji-bg">${p.emoji}</span>
+                    ${p.badge ? `<span class="badge badge-hot">${p.badge}</span>` : ''}
+                </div>
+                <div class="product-info">
+                    <h3>${p.name}</h3>
+                    <div class="price">$${p.price.toLocaleString('es-CO')} <span>$${p.oldPrice.toLocaleString('es-CO')}</span></div>
+                    <div class="desc">${p.desc}</div>
+                    <a class="wa-btn" href="${waLink}" target="_blank">🛒 Comprar ahora</a>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function filterProducts(category) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector(`.cat-btn[onclick*="'${category}'"]`).classList.add('active');
+    renderProducts(category);
+}
+
+renderProducts('all');
+</script>
+</body>
+</html>
