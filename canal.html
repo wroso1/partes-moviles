@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌙 Contenido Exclusivo | Canal Privado</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #050508;
+            color: #fff;
+            min-height: 100vh;
+        }
+        /* Age verification overlay */
+        #ageGate {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #050508;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .age-box {
+            max-width: 380px;
+            text-align: center;
+        }
+        .age-box h2 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+        .age-box p {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .age-buttons {
+            display: flex;
+            gap: 12px;
+        }
+        .age-yes, .age-no {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .age-yes {
+            background: linear-gradient(135deg, #b43cb4, #ff6b9d);
+            color: #fff;
+        }
+        .age-no {
+            background: #1a1a2e;
+            color: #666;
+        }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(ellipse at center, rgba(255, 107, 157, 0.08) 0%, transparent 50%);
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(transparent, #050508);
+            pointer-events: none;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 400px;
+            width: 100%;
+        }
+        .glow-circle {
+            width: 140px; height: 140px;
+            border-radius: 50%;
+            margin: 0 auto 28px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .glow-circle::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b43cb4, #ff6b9d, #ff4757);
+            opacity: 0.5;
+            animation: rotate 3s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .glow-inner {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            background: #0a0a15;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 56px;
+            position: relative;
+            z-index: 1;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #fff, #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .badge-premium {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            background: rgba(255,107,157,0.1);
+            border: 1px solid rgba(255,107,157,0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+        .price-card {
+            background: linear-gradient(135deg, #12121a, #1a0a2e);
+            border: 1px solid rgba(255,107,157,0.2);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .price-main {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+        }
+        .price-main small {
+            font-size: 16px;
+            font-weight: 400;
+            color: #888;
+        }
+        .price-detail {
+            color: #888;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+        .features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        .features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #1a1a2e;
+            font-size: 14px;
+            color: #bbb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .features li:last-child { border: none; }
+        .features li::before {
+            content: '✓';
+            color: #ff6b9d;
+            font-weight: 700;
+        }
+        .btn-wa {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #25D366;
+            color: #000;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            margin: 16px 0;
+            transition: transform 0.2s;
+        }
+        .btn-wa:active { transform: scale(0.97); }
+        .btn-telegram {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #0088cc;
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-telegram:active { transform: scale(0.97); }
+        .btn-telegram svg { width: 20px; height: 20px; fill: white; }
+        .steps {
+            background: #0a0a15;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .steps h3 {
+            color: #ff6b9d;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        .step {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            align-items: flex-start;
+        }
+        .step:last-child { margin-bottom: 0; }
+        .step-num {
+            width: 26px; height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #b43cb4, #ff6b9d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .step-text {
+            font-size: 13px;
+            color: #aaa;
+            padding-top: 3px;
+            line-height: 1.4;
+        }
+        .footer-text {
+            font-size: 12px;
+            color: #444;
+            margin-top: 20px;
+        }
+        .pulse {
+            display: inline-block;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #25D366;
+            animation: blink 1.5s infinite;
+        }
+        @keyframes blink {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- Age Gate -->
+<div id="ageGate">
+    <div class="age-box">
+        <div style="font-size:48px;margin-bottom:16px;">🔞</div>
+        <h2>¿Eres mayor de 18 años?</h2>
+        <p>Este contenido es exclusivo para adultos. Debes tener al menos 18 años para acceder.</p>
+        <div class="age-buttons">
+            <button class="age-no" onclick="document.getElementById('ageGate').innerHTML='<h2 style=margin-top:100px;color:#666;font-size:18px;>🔒 No puedes acceder. Debes ser mayor de edad.</h2>'">No</button>
+            <button class="age-yes" onclick="document.getElementById('ageGate').classList.add('hidden')">Sí, soy mayor</button>
+        </div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="content">
+        <span class="badge-premium">⭐ Canal Premium Privado</span>
+        
+        <div class="glow-circle">
+            <div class="glow-inner">🌙</div>
+        </div>
+        
+        <h1>Contenido Exclusivo</h1>
+        <p class="subtitle">El mejor contenido privado, directo a tu Telegram</p>
+
+        <div class="price-card">
+            <div class="price-main">$15.000 <small>/ mes</small></div>
+            <div class="price-detail">Pago único por Nequi — acceso inmediato</div>
+            <ul class="features">
+                <li>Contenido exclusivo diario</li>
+                <li>Fotos y videos en alta calidad</li>
+                <li>Canal privado 24/7</li>
+                <li>Soporte directo por WhatsApp</li>
+                <li>Sin publicidad ni filtros</li>
+            </ul>
+        </div>
+
+        <div class="steps">
+            <h3>📋 Cómo acceder</h3>
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Transfiere <strong>$15.000</strong> por Nequi al <strong><span id="nequiDisplay">3004515809</span></strong></div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Toma captura del comprobante y envíala por WhatsApp</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Recibes el link del canal privado al instante 🚀</div>
+            </div>
+        </div>
+
+        <a class="btn-wa" href="https://wa.me/573004515809?text=Hola%2C+quiero+acceder+al+contenido+exclusivo+%F0%9F%8C%99" target="_blank">
+            💬 Pagar y acceder por WhatsApp
+        </a>
+
+        <a class="btn-telegram" href="https://t.me/vanessarincon10" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 000 12a12 12 0 0012 12 12 12 0 0012-12A12 12 0 0012 0a12 12 0 00-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 01.171.325c.016.127.037.336.026.519-.221 2.335-1.173 7.997-1.66 10.606-.205 1.1-.609 1.469-1 1.506-.85.08-1.495-.562-2.318-1.101-.645-.423-1.01-.686-1.636-1.098-.725-.478-.255-1.012.159-1.348.108-.107.324-.337.324-.337l.003-.002a233.45 233.45 0 002.042-1.919c.42-.423.849-1.045.206-1.39-.572-.307-1.45.88-2.378 1.64-.602.493-1.144.876-1.563 1.023-.589.206-1.042.155-1.448.057-.636-.154-1.246-.543-1.796-.898-.742-.48-1.184-.804-1.16-1.025.02-.206.291-.401.817-.617 3.06-1.332 5.308-2.206 6.744-2.623 3.198-1.027 3.053-.73 2.705-.724z"/></svg>
+            Canal de Telegram
+        </a>
+
+        <div class="footer-text">
+            <span class="pulse"></span> Canal verificado · Pago 100% seguro
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
