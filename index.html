@@ -74,6 +74,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        .header.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+        .header-scroll-sentinel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
         }
         .header-bg {
             position: absolute;
@@ -372,16 +385,17 @@
 </head>
 <body>
 
-<div class="header">
-    <div class="header-bg"></div>
-    <div class="header-content">
-        <h1>📱 Partes Móviles</h1>
-        <p>🇨🇴 Repuestos de celulares en Medellín • Envíos a toda Colombia</p>
-        <a class="whatsapp-header" href="https://wa.me/573004515809?text=Hola%21+Quiero+un+repuesto" target="_blank" rel="noopener noreferrer">
-            💬 Pedidos por WhatsApp
-        </a>
+    <div class="header" id="mainHeader">
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <h1>📱 Partes Móviles</h1>
+            <p>🇨🇴 Repuestos de celulares en Medellín • Envíos a toda Colombia</p>
+            <a class="whatsapp-header" href="https://wa.me/573004515809?text=Hola%21+Quiero+un+repuesto" target="_blank" rel="noopener noreferrer">
+                💬 Pedidos por WhatsApp
+            </a>
+        </div>
     </div>
-</div>
+    <div class="header-scroll-sentinel" id="scrollSentinel"></div>
 
 <div class="credito-slider">
     <div class="slider-track">
@@ -537,6 +551,27 @@
         window._currentBrand = 'todas';
         renderProducts('todas', '');
     }
+
+    // Scroll hide header
+    let lastScrollY = window.scrollY;
+    const header = document.getElementById('mainHeader');
+    const sentinel = document.getElementById('scrollSentinel');
+
+    function onScroll() {
+        const currentY = window.scrollY;
+        const sentinelRect = sentinel.getBoundingClientRect();
+        
+        // Hide when scrolling down past header, show when scrolling up or at top
+        if (currentY > lastScrollY && sentinelRect.top < 0) {
+            header.classList.add('hidden');
+        } else {
+            header.classList.remove('hidden');
+        }
+        lastScrollY = currentY;
+    }
+
+    // Use passive listener for performance
+    window.addEventListener('scroll', onScroll, { passive: true });
 </script>
 </body>
 </html>
